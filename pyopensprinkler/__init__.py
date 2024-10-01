@@ -8,6 +8,7 @@ import json
 import os
 import threading
 import urllib
+import logging
 
 import aiohttp
 from backoff import expo, on_exception
@@ -44,6 +45,7 @@ from pyopensprinkler.const import (
 from pyopensprinkler.program import Program
 from pyopensprinkler.station import Station
 
+_LOGGER = logging.getLogger(__name__)
 
 def synchronized(lock):
     """Synchronization decorator"""
@@ -441,6 +443,7 @@ class Controller(object):
 
     async def run_once_program(self, station_times):
         """Run once program"""
+        _LOGGER.debug("__init__ Controller run_once_program")
         params = {"t": station_times}
 
         t = json.dumps(params.pop("t", None)).replace(" ", "")
