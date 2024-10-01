@@ -146,6 +146,7 @@ class Controller(object):
         url = f"{self._baseUrl}{path}?{qs}"
 
         content = await self._request_http(url)
+        _LOGGER.debug(content)
 
         refresh = self._opts["auto_refresh_on_update"]["enabled"]
         if self.refresh_on_update is not None:
