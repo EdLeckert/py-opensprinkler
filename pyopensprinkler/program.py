@@ -1,6 +1,7 @@
 """Program module handling /program/ API calls."""
 
 import json
+import logging
 
 from pyopensprinkler.const import (
     SCHEDULE_START_TIME_FIXED,
@@ -17,7 +18,7 @@ from pyopensprinkler.const import (
     START_TIME_SUNSET_BIT,
     WEEKDAYS,
 )
-
+_LOGGER = logging.getLogger(__name__)
 
 class Program(object):
     """Program class with /program/ API calls."""
@@ -48,6 +49,7 @@ class Program(object):
 
     async def _manual_run(self):
         """Run program"""
+        _LOGGER.debug("Program _manual_run")
         params = {"pid": self._index, "uwt": 0}
         content = await self._controller.request("/mp", params)
         return content["result"]
@@ -154,6 +156,7 @@ class Program(object):
 
     async def run(self):
         """Run program"""
+        _LOGGER.debug(f"Program run: {self.name}")
         return await self._manual_run()
 
     async def set_name(self, name):
