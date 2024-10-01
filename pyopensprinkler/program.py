@@ -49,7 +49,7 @@ class Program(object):
 
     async def _manual_run(self):
         """Run program"""
-        _LOGGER.debug("Program _manual_run")
+        _LOGGER.debug(f"Program _manual_run, index: {self._index}")
         params = {"pid": self._index, "uwt": 0}
         content = await self._controller.request("/mp", params)
         return content["result"]
