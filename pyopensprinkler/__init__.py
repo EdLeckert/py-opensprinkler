@@ -204,11 +204,12 @@ class Controller(object):
             async with self._http_client.get(
                 url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth
             ) as resp:
+                _LOGGER.debug(f"Content-Type: {resp.headers["Content-Type"]}")
                 content = await resp.json(
                     encoding="UTF-8", content_type=resp.headers["Content-Type"]
                 )
 
-                _LOGGER.debug(f"http resp: {content}")
+                _LOGGER.debug(f"http resp received")
 
                 if len(content) == 1:
                     if "result" in content:
