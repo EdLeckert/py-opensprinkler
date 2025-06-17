@@ -203,7 +203,7 @@ class Controller(object):
                 url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth
             ) as resp:
                 _LOGGER.debug(f"http_client.get succeeded")
-                _LOGGER.debug(f"Content-Type: {resp.headers["Content-Type"]}")
+                _LOGGER.debug(f"resp.headers: {resp.headers}")
                 _LOGGER.debug(f"http status: {resp.status}")
                 _LOGGER.debug(f"http resp: {await resp.read()}")
                 content = await resp.json(
