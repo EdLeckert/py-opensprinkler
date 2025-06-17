@@ -199,13 +199,11 @@ class Controller(object):
             if "verify_ssl" in self._opts:
                 verify_ssl = self._opts["verify_ssl"]
 
-            _LOGGER.debug(f"http get: {url}")
-
             async with self._http_client.get(
                 url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth
             ) as resp:
                 _LOGGER.debug(f"Content-Type: {resp.headers["Content-Type"]}")
-                _LOGGER.debug(f"http resp: {resp}")
+                _LOGGER.debug(f"http resp: {resp.content}")
                 content = await resp.json(
                     encoding="UTF-8", content_type=resp.headers["Content-Type"]
                 )
