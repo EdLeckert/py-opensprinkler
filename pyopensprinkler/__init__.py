@@ -127,7 +127,7 @@ class Controller(object):
             opts["auto_refresh_on_update"]["settle_time"] = 1
 
     def session_start(self):
-        client = aiohttp.ClientSession()
+        client = aiohttp.ClientSession(max_line_size=8190, max_field_size=8190)
         self._http_client = client
 
     async def session_close(self):
@@ -200,7 +200,7 @@ class Controller(object):
                 verify_ssl = self._opts["verify_ssl"]
 
             async with self._http_client.get(
-                url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth
+                url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth, raise_for_status=True
             ) as resp:
                 _LOGGER.debug(f"http_client.get succeeded")
                 _LOGGER.debug(f"resp.headers: {resp.headers}")
