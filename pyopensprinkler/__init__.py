@@ -230,6 +230,8 @@ class Controller(object):
             raise OpenSprinklerConnectionError("Cannot connect to controller") from exc
         except KeyError as exc:
             raise OpenSprinklerAuthError("Invalid password") from exc
+        except Exception as e:
+            _LOGGER.error(f"http error: {e}")
 
     async def refresh(self):
         """Refresh programs and stations"""
