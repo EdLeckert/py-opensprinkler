@@ -205,6 +205,7 @@ class Controller(object):
                 _LOGGER.debug(f"http_client.get succeeded")
                 _LOGGER.debug(f"resp.headers: {resp.headers}")
                 _LOGGER.debug(f"http status: {resp.status}")
+                resp.raise_for_status()
                 _LOGGER.debug(f"http resp: {await resp.read()}")
                 content = await resp.json(
                     encoding="UTF-8", content_type=resp.headers["Content-Type"]
