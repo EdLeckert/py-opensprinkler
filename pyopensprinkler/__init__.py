@@ -1,6 +1,7 @@
 """Main OpenSprinkler module."""
 
 import asyncio
+import logging
 import datetime
 import functools
 import hashlib
@@ -44,6 +45,7 @@ from pyopensprinkler.const import (
 from pyopensprinkler.program import Program
 from pyopensprinkler.station import Station
 
+_LOGGER = logging.getLogger(__name__)
 
 def synchronized(lock):
     """Synchronization decorator"""
@@ -197,12 +199,16 @@ class Controller(object):
             if "verify_ssl" in self._opts:
                 verify_ssl = self._opts["verify_ssl"]
 
+            _LOGGER.debug(f"http get: {url}")
+
             async with self._http_client.get(
                 url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth
             ) as resp:
                 content = await resp.json(
                     encoding="UTF-8", content_type=resp.headers["Content-Type"]
                 )
+
+                _LOGGER.debug(f"http resp: {content}")
 
                 if len(content) == 1:
                     if "result" in content:
