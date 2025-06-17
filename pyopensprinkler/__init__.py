@@ -223,12 +223,16 @@ class Controller(object):
 
                 return content
         except aiohttp.ClientConnectionError as exc:
+            _LOGGER.error(f"ClientConnectionError: {exc}")
             raise OpenSprinklerConnectionError("Cannot connect to controller") from exc
         except ConnectionError as exc:
+            _LOGGER.error(f"ConnectionError: {exc}")
             raise OpenSprinklerConnectionError("Cannot connect to controller") from exc
         except json.decoder.JSONDecodeError as exc:
+            _LOGGER.error(f"JSONDecodeError: {exc}")
             raise OpenSprinklerConnectionError("Cannot connect to controller") from exc
         except KeyError as exc:
+            _LOGGER.error(f"KeyError: {exc}")
             raise OpenSprinklerAuthError("Invalid password") from exc
         except Exception as e:
             _LOGGER.error(f"http error: {e}")
