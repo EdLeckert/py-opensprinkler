@@ -127,7 +127,7 @@ class Controller(object):
             opts["auto_refresh_on_update"]["settle_time"] = 1
 
     def session_start(self):
-        client = aiohttp.ClientSession(max_line_size=8190, max_field_size=8190)
+        client = aiohttp.ClientSession(cookie_jar=aiohttp.DummyCookieJar)
         self._http_client = client
 
     async def session_close(self):
