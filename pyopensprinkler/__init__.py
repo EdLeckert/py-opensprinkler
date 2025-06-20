@@ -128,6 +128,7 @@ class Controller(object):
 
     def session_start(self):
         client = aiohttp.ClientSession(cookie_jar=aiohttp.DummyCookieJar)
+        _LOGGER.debug("aiohttp.ClientSession")
         self._http_client = client
 
     async def session_close(self):
@@ -199,6 +200,8 @@ class Controller(object):
             if "verify_ssl" in self._opts:
                 verify_ssl = self._opts["verify_ssl"]
 
+            self._http_client.cookie_jar.clear()
+            _LOGGER.debug("_http_client.cookie_jar.clear()")
             async with self._http_client.get(
                 url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth, raise_for_status=True
             ) as resp:
