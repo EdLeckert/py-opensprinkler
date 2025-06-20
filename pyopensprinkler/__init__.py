@@ -205,11 +205,6 @@ class Controller(object):
             async with self._http_client.get(
                 url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth, raise_for_status=True
             ) as resp:
-                _LOGGER.debug(f"http_client.get succeeded")
-                _LOGGER.debug(f"resp.headers: {resp.headers}")
-                _LOGGER.debug(f"http status: {resp.status}")
-                resp.raise_for_status()
-                _LOGGER.debug(f"http resp: {await resp.read()}")
                 content = await resp.json(
                     encoding="UTF-8", content_type=resp.headers["Content-Type"]
                 )
