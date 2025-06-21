@@ -200,7 +200,10 @@ class Controller(object):
             if "verify_ssl" in self._opts:
                 verify_ssl = self._opts["verify_ssl"]
 
-            _LOGGER.debug(f"cookies: {self._http_client.cookie_jar}")
+            cookies = self._http_client.cookie_jar
+            for key, cookie in cookies.items():
+                _LOGGER.debug(f"cookies: {key}, {cookie}")
+
             # self._http_client.cookie_jar.clear()
             async with self._http_client.get(
                 url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth, raise_for_status=True
