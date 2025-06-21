@@ -200,6 +200,8 @@ class Controller(object):
             if "verify_ssl" in self._opts:
                 verify_ssl = self._opts["verify_ssl"]
 
+            _LOGGER.debug(f"Number of cookies: {len(self._http_client.cookie_jar)}")
+
             for cookie in self._http_client.cookie_jar:
                 _LOGGER.debug(f"cookies: {cookie.key}, {cookie["domain"]}")
 
