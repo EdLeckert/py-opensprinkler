@@ -127,8 +127,9 @@ class Controller(object):
             opts["auto_refresh_on_update"]["settle_time"] = 1
 
     def session_start(self):
+        initial_cookies = {'user_id': 'user123', 'session_token': 'abcde12345'}
         # client = aiohttp.ClientSession(cookie_jar=aiohttp.DummyCookieJar)
-        client = aiohttp.ClientSession()
+        client = aiohttp.ClientSession(cookies=initial_cookies)
         self._http_client = client
 
     async def session_close(self):
