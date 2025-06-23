@@ -186,8 +186,10 @@ class Controller(object):
     @synchronized(lock)
     @on_exception(expo, OpenSprinklerConnectionError, max_tries=3)
     async def _request_http(self, url):
+        _LOGGER.debug("_request_http")
         try:
             if self._http_client is None:
+                _LOGGER.debug("Calling session_start")
                 self.session_start()
 
             timeout = aiohttp.ClientTimeout(total=60)
