@@ -188,9 +188,9 @@ class Controller(object):
     async def _request_http(self, url):
         _LOGGER.debug("_request_http")
         try:
-            if self._http_client is None:
-                _LOGGER.debug("Calling session_start")
-                self.session_start()
+            # if self._http_client is None:
+            _LOGGER.debug("Calling session_start")
+            self.session_start()
 
             timeout = aiohttp.ClientTimeout(total=60)
             headers = {"Accept": "*/*", "Connection": "keep-alive"}
