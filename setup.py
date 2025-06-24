@@ -2,7 +2,7 @@
 
 from setuptools import setup
 
-version = "0.7.14.37"
+version = "0.7.14.38"
 
 github_username = "vinteo"
 github_repository = "py-opensprinkler"
