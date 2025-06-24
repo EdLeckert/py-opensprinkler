@@ -206,7 +206,7 @@ class Controller(object):
 
             # self._http_client.cookie_jar.clear()
             async with self._http_client.get(
-                url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth, raise_for_status=True
+                url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth#, raise_for_status=True
             ) as resp:
                 content = await resp.json(
                     encoding="UTF-8", content_type=resp.headers["Content-Type"]
