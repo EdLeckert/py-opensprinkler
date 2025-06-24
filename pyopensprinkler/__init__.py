@@ -114,8 +114,8 @@ class Controller(object):
 
         self.refresh_on_update = None
 
-        if "session" in opts:
-            self._http_client = opts["session"]
+        # if "session" in opts:
+        #     self._http_client = opts["session"]
 
         if "auto_refresh_on_update" not in opts:
             opts["auto_refresh_on_update"] = {}
