@@ -235,7 +235,7 @@ class Controller(object):
             _LOGGER.error(f"JSONDecodeError: {exc}")
             raise OpenSprinklerConnectionError("Cannot connect to controller") from exc
         except KeyError as exc:
-            raise OpenSprinklerAuthError("Key {exc} not found") from exc
+            raise OpenSprinklerAuthError(f"Key {exc} not found") from exc
         except Exception as e:
             _LOGGER.error(f"http error: {e}")
 
