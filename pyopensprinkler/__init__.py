@@ -115,6 +115,7 @@ class Controller(object):
         self.refresh_on_update = None
 
         if "session" in opts:
+            _LOGGER.debug("Using session found in opts")
             self._http_client = opts["session"]
             # self._http_client.cookie_jar = aiohttp.DummyCookieJar()
 
@@ -128,6 +129,7 @@ class Controller(object):
             opts["auto_refresh_on_update"]["settle_time"] = 1
 
     def session_start(self):
+        _LOGGER.debug("Creating session in session_start")
         client = aiohttp.ClientSession()
         self._http_client = client
 
