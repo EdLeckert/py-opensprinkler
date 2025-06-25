@@ -117,7 +117,7 @@ class Controller(object):
         if "session" in opts:
             _LOGGER.debug("Using session found in opts")
             self._http_client = opts["session"]
-            # self._http_client.cookie_jar = aiohttp.DummyCookieJar()
+            self._http_client.cookie_jar = aiohttp.DummyCookieJar()
 
         if "auto_refresh_on_update" not in opts:
             opts["auto_refresh_on_update"] = {}
