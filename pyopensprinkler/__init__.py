@@ -114,8 +114,9 @@ class Controller(object):
 
         self.refresh_on_update = None
 
-        # if "session" in opts:
-        #     self._http_client = opts["session"]
+        if "session" in opts:
+            self._http_client = opts["session"]
+            # self._http_client.cookie_jar = aiohttp.DummyCookieJar()
 
         if "auto_refresh_on_update" not in opts:
             opts["auto_refresh_on_update"] = {}
@@ -127,10 +128,7 @@ class Controller(object):
             opts["auto_refresh_on_update"]["settle_time"] = 1
 
     def session_start(self):
-        _LOGGER.debug("*** session_start ***")
-        cookies = {"cookie1":  "ABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNOPQRST"}
-        client = aiohttp.ClientSession(cookies=cookies, cookie_jar=aiohttp.DummyCookieJar())
-        # client = aiohttp.ClientSession(cookies=cookies)
+        client = aiohttp.ClientSession()
         self._http_client = client
 
     async def session_close(self):
@@ -204,9 +202,8 @@ class Controller(object):
 
             _LOGGER.debug(f"Number of cookies: {len(self._http_client.cookie_jar)}")
 
-            # self._http_client.cookie_jar.clear()
             async with self._http_client.get(
-                url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth#, raise_for_status=True
+                url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth
             ) as resp:
                 content = await resp.json(
                     encoding="UTF-8", content_type=resp.headers["Content-Type"]
@@ -235,9 +232,10 @@ class Controller(object):
             _LOGGER.error(f"JSONDecodeError: {exc}")
             raise OpenSprinklerConnectionError("Cannot connect to controller") from exc
         except KeyError as exc:
-            raise OpenSprinklerAuthError(f"Key {exc} not found") from exc
+            raise OpenSprinklerConnectionError(f"Key {exc} not found") from exc
         except Exception as e:
-            _LOGGER.error(f"http error: {e}")
+            _LOGGER.error(f"Unexpected http error: {e}")
+            raise
 
     async def refresh(self):
         """Refresh programs and stations"""
