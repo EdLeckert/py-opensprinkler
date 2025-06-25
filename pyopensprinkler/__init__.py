@@ -117,7 +117,6 @@ class Controller(object):
         if "session" in opts:
             _LOGGER.debug("Using session found in opts")
             self._http_client = opts["session"]
-            self._http_client.cookie_jar = aiohttp.DummyCookieJar()
 
         if "auto_refresh_on_update" not in opts:
             opts["auto_refresh_on_update"] = {}
@@ -201,8 +200,6 @@ class Controller(object):
             verify_ssl = None
             if "verify_ssl" in self._opts:
                 verify_ssl = self._opts["verify_ssl"]
-
-            _LOGGER.debug(f"Number of cookies: {len(self._http_client.cookie_jar)}")
 
             async with self._http_client.get(
                 url, timeout=timeout, headers=headers, verify_ssl=verify_ssl, auth=auth
