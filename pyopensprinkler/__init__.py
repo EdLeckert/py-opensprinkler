@@ -403,7 +403,7 @@ class Controller(object):
             raise ValueError(
                 "Delay must be in seconds between -600 to 600 in increments of 5 seconds"
             )
-        return await self._set_variable("sdt", seconds)
+        return await self._set_option("sdt", seconds)
 
     async def set_pause(self, seconds):
         """
@@ -672,7 +672,7 @@ class Controller(object):
     @property
     def station_delay(self):
         """Retrieve station delay in seconds"""
-        return self._get_variable("sdt")
+        return self._get_option("sdt")
 
     @property
     def master_station_1(self):
