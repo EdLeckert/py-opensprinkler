@@ -400,7 +400,9 @@ class Controller(object):
         """
 
         if (not -600 <= seconds <= 600) or (seconds % 5 != 0):
-            raise ValueError("Delay must be in seconds between -600 to 600 in increments of 5 seconds")
+            raise ValueError(
+                "Delay must be in seconds between -600 to 600 in increments of 5 seconds"
+            )
         return await self._set_variable("sdt", seconds)
 
     async def set_pause(self, seconds):
