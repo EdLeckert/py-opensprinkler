@@ -1,5 +1,6 @@
 """Commonly used functions."""
 
+
 def _is_new_feature_supported(controller, required_version, required_minor_version):
     """Compare current firmware version with the first supported version of a feature"""
     firmware_version = controller.firmware_version
@@ -11,7 +12,10 @@ def _is_new_feature_supported(controller, required_version, required_minor_versi
     else:
         return False
 
-def _is_removed_feature_supported(controller, last_supported_version, last_supported_minor_version):
+
+def _is_removed_feature_supported(
+    controller, last_supported_version, last_supported_minor_version
+):
     """Compare current firmware version with the last supported version of a feature"""
     firmware_version = controller.firmware_version
     firmware_minor_version = controller.firmware_minor_version

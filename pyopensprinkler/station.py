@@ -11,6 +11,7 @@ from pyopensprinkler.const import (
     STATION_STATUS_WAITING,
     STATION_TYPE_STANDARD,
 )
+
 from .exceptions import FirmwareNotSupportedError
 from .utils import _is_new_feature_supported, _is_removed_feature_supported
 
